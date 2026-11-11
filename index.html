@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vela 2026</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: radial-gradient(ellipse at center, #1a1020 0%, #000000 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Georgia', serif;
+    color: #f5e6c8;
+    overflow: hidden;
+    padding: 20px;
+  }
+
+  .escena {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    filter: drop-shadow(0 0 40px rgba(255, 170, 50, 0.3));
+  }
+
+  /* LLAMA */
+  .llama-container {
+    position: relative;
+    width: 40px;
+    height: 80px;
+    margin-bottom: -10px;
+    z-index: 3;
+  }
+
+  .llama {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 70px;
+    background: radial-gradient(ellipse at 50% 90%, #fff7b0 0%, #ffd54a 25%, #ff8a1f 55%, #ff3b00 85%, transparent 100%);
+    border-radius: 50% 50% 35% 35% / 70% 70% 30% 30%;
+    animation: parpadeo 0.15s infinite alternate, bamboleo 2s infinite ease-in-out;
+    transform-origin: 50% 100%;
+    filter: blur(0.5px);
+    box-shadow: 0 0 30px #ff9a2a, 0 0 60px #ff6a00, 0 0 100px rgba(255,120,0,0.5);
+  }
+
+  .llama::before {
+    content: '';
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 12px;
+    height: 35px;
+    background: radial-gradient(ellipse at 50% 80%, #ffffff 0%, #fff4a3 40%, #ffd24a 80%, transparent 100%);
+    border-radius: 50% 50% 35% 35% / 70% 70% 30% 30%;
+    animation: parpadeo-interno 0.2s infinite alternate;
+  }
+
+  @keyframes parpadeo {
+    0%   { transform: translateX(-50%) scale(1, 1); opacity: 0.95; }
+    100% { transform: translateX(-50%) scale(1.05, 0.95); opacity: 1; }
+  }
+
+  @keyframes parpadeo-interno {
+    0%   { transform: translateX(-50%) scale(1, 1); }
+    100% { transform: translateX(-50%) scale(0.9, 1.1); }
+  }
+
+  @keyframes bamboleo {
+    0%, 100% { transform: translateX(-50%) rotate(-2deg); }
+    50%      { transform: translateX(-50%) rotate(2deg); }
+  }
+
+  /* MECHA */
+  .mecha {
+    width: 3px;
+    height: 12px;
+    background: linear-gradient(to top, #2a1a0a, #000);
+    margin: 0 auto -2px auto;
+    border-radius: 2px;
+    z-index: 2;
+  }
+
+  /* VELA */
+  .vela-wrapper {
+    position: relative;
+    width: 90px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .vela {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    background: linear-gradient(to right,
+      #d4b896 0%,
+      #f5e6c8 20%,
+      #fff8e7 50%,
+      #f5e6c8 80%,
+      #b89876 100%);
+    border-radius: 8px 8px 4px 4px;
+    box-shadow:
+      inset -8px 0 15px rgba(0,0,0,0.25),
+      inset 8px 0 15px rgba(255,255,255,0.3),
+      0 0 20px rgba(255, 170, 50, 0.4);
+    transition: height 1s linear;
+    overflow: hidden;
+  }
+
+  /* Parte superior de la vela (cera derretida) */
+  .vela::before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: 0;
+    right: 0;
+    height: 10px;
+    background: radial-gradient(ellipse at center, #fff4d6 0%, #e8cfa5 70%, #b89876 100%);
+    border-radius: 50%;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+  }
+
+  /* Gotas de cera en los laterales */
+  .gota {
+    position: absolute;
+    background: linear-gradient(to bottom, #fff4d6 0%, #e8cfa5 60%, #b89876 100%);
+    border-radius: 50% 50% 45% 45% / 30% 30% 70% 70%;
+    box-shadow: inset -2px 0 3px rgba(0,0,0,0.2), 0 2px 3px rgba(0,0,0,0.3);
+    animation: gotear 4s infinite ease-in;
+  }
+
+  .gota-1 { top: 0; left: 8px; width: 14px; height: 30px; animation-delay: 0s; }
+  .gota-2 { top: 0; right: 12px; width: 11px; height: 45px; animation-delay: 1.5s; }
+  .gota-3 { top: 0; left: 25px; width: 9px; height: 22px; animation-delay: 2.8s; }
+  .gota-4 { top: 0; right: 30px; width: 12px; height: 35px; animation-delay: 0.7s; }
+
+  @keyframes gotear {
+    0%   { transform: translateY(0) scaleY(1); opacity: 1; }
+    70%  { transform: translateY(60px) scaleY(1.2); opacity: 1; }
+    100% { transform: translateY(120px) scaleY(0.8); opacity: 0.7; }
+  }
+
+  /* Base / candelabro */
+  .base {
+    width: 130px;
+    height: 18px;
+    background: linear-gradient(to bottom, #8a6a45 0%, #5a4028 100%);
+    border-radius: 50%;
+    margin-top: -4px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+  }
+
+  /* Texto 2026 */
+  .anio {
+    margin-top: 30px;
+    font-size: 2.5rem;
+    font-weight: bold;
+    letter-spacing: 8px;
+    color: #ffd88a;
+    text-shadow:
+      0 0 10px #ff9a2a,
+      0 0 20px #ff6a00,
+      0 0 30px rgba(255, 120, 0, 0.6);
+    animation: brillo-texto 3s infinite alternate;
+  }
+
+  @keyframes brillo-texto {
+    0%   { text-shadow: 0 0 10px #ff9a2a, 0 0 20px #ff6a00; }
+    100% { text-shadow: 0 0 15px #ffbb4a, 0 0 30px #ff8a1f, 0 0 45px rgba(255, 120, 0, 0.7); }
+  }
+
+  /* Contador */
+  .contador {
+    margin-top: 25px;
+    text-align: center;
+    font-size: 1.1rem;
+    color: #e8d4a8;
+    line-height: 1.8;
+    letter-spacing: 1px;
+  }
+
+  .contador .numero {
+    display: inline-block;
+    font-weight: bold;
+    color: #ffd88a;
+    min-width: 30px;
+    text-align: center;
+    font-family: 'Courier New', monospace;
+  }
+
+  .contador .etiqueta {
+    font-size: 0.75rem;
+    color: #a89070;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    display: block;
+    margin-top: -5px;
+  }
+
+  .contador-grupo {
+    display: inline-block;
+    margin: 0 10px;
+    vertical-align: top;
+  }
+
+  @media (max-width: 500px) {
+    .vela { height: 300px; width: 70px; }
+    .vela-wrapper { width: 70px; }
+    .base { width: 100px; }
+    .anio { font-size: 1.8rem; }
+    .contador { font-size: 0.95rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="escena">
+  <div class="llama-container">
+    <div class="llama"></div>
+  </div>
+  <div class="mecha"></div>
+
+  <div class="vela-wrapper">
+    <div class="vela" id="vela">
+      <div class="gota gota-1"></div>
+      <div class="gota gota-2"></div>
+      <div class="gota gota-3"></div>
+      <div class="gota gota-4"></div>
+    </div>
+    <div class="base"></div>
+  </div>
+
+  <div class="anio">2026</div>
+
+  <div class="contador" id="contador">
+    <div class="contador-grupo">
+      <span class="numero" id="dias">00</span>
+      <span class="etiqueta">Días</span>
+    </div>
+    <div class="contador-grupo">
+      <span class="numero" id="horas">00</span>
+      <span class="etiqueta">Horas</span>
+    </div>
+    <div class="contador-grupo">
+      <span class="numero" id="minutos">00</span>
+      <span class="etiqueta">Minutos</span>
+    </div>
+    <div class="contador-grupo">
+      <span class="numero" id="segundos">00</span>
+      <span class="etiqueta">Segundos</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Configuración del año 2026
+  const inicioAno = new Date('2026-01-01T00:00:00').getTime();
+  const finAno    = new Date('2027-01-01T00:00:00').getTime();
+  const totalSegundosAno = (finAno - inicioAno) / 1000; // 31.536.000 segundos
+
+  // Altura máxima de la vela (debe coincidir con el CSS)
+  const alturaMaxima = window.innerWidth <= 500 ? 300 : 400;
+
+  const vela = document.getElementById('vela');
+  const diasEl = document.getElementById('dias');
+  const horasEl = document.getElementById('horas');
+  const minutosEl = document.getElementById('minutos');
+  const segundosEl = document.getElementById('segundos');
+
+  function actualizar() {
+    const ahora = new Date().getTime();
+    let transcurrido = ahora - inicioAno;
+    let restante = finAno - ahora;
+
+    // Si el año aún no empieza
+    if (transcurrido < 0) transcurrido = 0;
+    // Si el año ya terminó
+    if (restante < 0) restante = 0;
+
+    // Porcentaje consumido (0 a 1)
+    const porcentajeConsumido = transcurrido / (finAno - inicioAno);
+
+    // Altura actual de la vela
+    const nuevaAltura = alturaMaxima * (1 - porcentajeConsumido);
+    vela.style.height = Math.max(0, nuevaAltura) + 'px';
+
+    // Calcular días, horas, minutos, segundos restantes
+    const segundosTotales = Math.floor(restante / 1000);
+    const d = Math.floor(segundosTotales / 86400);
+    const h = Math.floor((segundosTotales % 86400) / 3600);
+    const m = Math.floor((segundosTotales % 3600) / 60);
+    const s = segundosTotales % 60;
+
+    diasEl.textContent    = String(d).padStart(2, '0');
+    horasEl.textContent   = String(h).padStart(2, '0');
+    minutosEl.textContent = String(m).padStart(2, '0');
+    segundosEl.textContent = String(s).padStart(2, '0');
+  }
+
+  actualizar();
+  setInterval(actualizar, 1000);
+</script>
+
+</body>
+</html>
