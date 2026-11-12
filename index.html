@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vela 2026</title>
+<title>Vela Consumiéndose</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    background: radial-gradient(ellipse at center, #1a1020 0%, #000000 100%);
+    background: #000000;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -25,7 +25,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    filter: drop-shadow(0 0 40px rgba(255, 170, 50, 0.3));
   }
 
   /* LLAMA */
@@ -42,14 +41,14 @@
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 30px;
-    height: 70px;
-    background: radial-gradient(ellipse at 50% 90%, #fff7b0 0%, #ffd54a 25%, #ff8a1f 55%, #ff3b00 85%, transparent 100%);
+    width: 28px;
+    height: 65px;
+    background: radial-gradient(ellipse at 50% 90%, #e0ffe0 0%, #50ff50 25%, #20cc20 55%, #0a8a0a 85%, transparent 100%);
     border-radius: 50% 50% 35% 35% / 70% 70% 30% 30%;
     animation: parpadeo 0.15s infinite alternate, bamboleo 2s infinite ease-in-out;
     transform-origin: 50% 100%;
     filter: blur(0.5px);
-    box-shadow: 0 0 30px #ff9a2a, 0 0 60px #ff6a00, 0 0 100px rgba(255,120,0,0.5);
+    box-shadow: 0 0 25px #30ff30, 0 0 50px #20cc20, 0 0 80px rgba(32, 204, 32, 0.5);
   }
 
   .llama::before {
@@ -58,9 +57,9 @@
     bottom: 5px;
     left: 50%;
     transform: translateX(-50%);
-    width: 12px;
-    height: 35px;
-    background: radial-gradient(ellipse at 50% 80%, #ffffff 0%, #fff4a3 40%, #ffd24a 80%, transparent 100%);
+    width: 10px;
+    height: 30px;
+    background: radial-gradient(ellipse at 50% 80%, #ffffff 0%, #d0ffd0 40%, #50ff50 80%, transparent 100%);
     border-radius: 50% 50% 35% 35% / 70% 70% 30% 30%;
     animation: parpadeo-interno 0.2s infinite alternate;
   }
@@ -84,13 +83,13 @@
   .mecha {
     width: 3px;
     height: 12px;
-    background: linear-gradient(to top, #2a1a0a, #000);
+    background: linear-gradient(to top, #1a0a00, #000);
     margin: 0 auto -2px auto;
     border-radius: 2px;
     z-index: 2;
   }
 
-  /* VELA */
+  /* Contenedor de la vela con la sombra fantasma */
   .vela-wrapper {
     position: relative;
     width: 90px;
@@ -99,21 +98,62 @@
     align-items: center;
   }
 
-  .vela {
+  .vela-contenedor {
     position: relative;
     width: 100%;
     height: 400px;
+  }
+
+  /* Sombra fantasma: muestra la vela completa original */
+  .vela-fantasma {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
     background: linear-gradient(to right,
-      #d4b896 0%,
-      #f5e6c8 20%,
-      #fff8e7 50%,
-      #f5e6c8 80%,
-      #b89876 100%);
+      rgba(30, 120, 30, 0.15) 0%,
+      rgba(50, 180, 50, 0.2) 20%,
+      rgba(70, 220, 70, 0.25) 50%,
+      rgba(50, 180, 50, 0.2) 80%,
+      rgba(30, 120, 30, 0.15) 100%);
+    border-radius: 8px 8px 4px 4px;
+    box-shadow: 0 0 30px rgba(50, 220, 50, 0.15);
+  }
+
+  /* Línea punteada que marca el tope original */
+  .vela-fantasma::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -10px;
+    right: -10px;
+    height: 2px;
+    background: repeating-linear-gradient(to right,
+      rgba(100, 255, 100, 0.4) 0px,
+      rgba(100, 255, 100, 0.4) 6px,
+      transparent 6px,
+      transparent 12px);
+  }
+
+  /* Vela real (la que se consume) */
+  .vela {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 400px;
+    background: linear-gradient(to right,
+      #0a4a0a 0%,
+      #1a8a1a 20%,
+      #2ecc2e 50%,
+      #1a8a1a 80%,
+      #0a4a0a 100%);
     border-radius: 8px 8px 4px 4px;
     box-shadow:
-      inset -8px 0 15px rgba(0,0,0,0.25),
-      inset 8px 0 15px rgba(255,255,255,0.3),
-      0 0 20px rgba(255, 170, 50, 0.4);
+      inset -8px 0 15px rgba(0,0,0,0.4),
+      inset 8px 0 15px rgba(255,255,255,0.15),
+      0 0 25px rgba(46, 204, 46, 0.4);
     transition: height 1s linear;
     overflow: hidden;
   }
@@ -126,17 +166,17 @@
     left: 0;
     right: 0;
     height: 10px;
-    background: radial-gradient(ellipse at center, #fff4d6 0%, #e8cfa5 70%, #b89876 100%);
+    background: radial-gradient(ellipse at center, #50ff50 0%, #2ecc2e 50%, #1a8a1a 100%);
     border-radius: 50%;
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
   }
 
   /* Gotas de cera en los laterales */
   .gota {
     position: absolute;
-    background: linear-gradient(to bottom, #fff4d6 0%, #e8cfa5 60%, #b89876 100%);
+    background: linear-gradient(to bottom, #50ff50 0%, #2ecc2e 60%, #1a8a1a 100%);
     border-radius: 50% 50% 45% 45% / 30% 30% 70% 70%;
-    box-shadow: inset -2px 0 3px rgba(0,0,0,0.2), 0 2px 3px rgba(0,0,0,0.3);
+    box-shadow: inset -2px 0 3px rgba(0,0,0,0.3), 0 2px 3px rgba(0,0,0,0.4);
     animation: gotear 4s infinite ease-in;
   }
 
@@ -151,17 +191,31 @@
     100% { transform: translateY(120px) scaleY(0.8); opacity: 0.7; }
   }
 
-  /* Base / candelabro */
+  /* Candelabro dorado */
   .base {
     width: 130px;
-    height: 18px;
-    background: linear-gradient(to bottom, #8a6a45 0%, #5a4028 100%);
+    height: 22px;
+    background: linear-gradient(to bottom, #d4a843 0%, #b8862d 30%, #8b6914 70%, #6b4f10 100%);
     border-radius: 50%;
     margin-top: -4px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.7), inset 0 2px 4px rgba(255,220,100,0.3);
+    position: relative;
   }
 
-  /* Texto 2026 */
+  .base::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 12px;
+    background: linear-gradient(to bottom, #e8c060, #b8862d);
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  }
+
+  /* Texto año */
   .anio {
     margin-top: 30px;
     font-size: 2.5rem;
@@ -214,8 +268,30 @@
     vertical-align: top;
   }
 
+  /* Chispas mágicas */
+  .chispa {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  @keyframes chispa-subir {
+    0% {
+      transform: translate(0, 0) scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: translate(var(--dx), var(--dy)) scale(0);
+      opacity: 0;
+    }
+  }
+
   @media (max-width: 500px) {
-    .vela { height: 300px; width: 70px; }
+    .vela-contenedor { height: 300px; }
+    .vela { height: 300px; }
     .vela-wrapper { width: 70px; }
     .base { width: 100px; }
     .anio { font-size: 1.8rem; }
@@ -226,22 +302,25 @@
 <body>
 
 <div class="escena">
-  <div class="llama-container">
+  <div class="llama-container" id="llamaContainer">
     <div class="llama"></div>
   </div>
   <div class="mecha"></div>
 
   <div class="vela-wrapper">
-    <div class="vela" id="vela">
-      <div class="gota gota-1"></div>
-      <div class="gota gota-2"></div>
-      <div class="gota gota-3"></div>
-      <div class="gota gota-4"></div>
+    <div class="vela-contenedor">
+      <div class="vela-fantasma"></div>
+      <div class="vela" id="vela">
+        <div class="gota gota-1"></div>
+        <div class="gota gota-2"></div>
+        <div class="gota gota-3"></div>
+        <div class="gota gota-4"></div>
+      </div>
     </div>
     <div class="base"></div>
   </div>
 
-  <div class="anio">2026</div>
+  <div class="anio" id="anioTexto">2026</div>
 
   <div class="contador" id="contador">
     <div class="contador-grupo">
@@ -264,12 +343,13 @@
 </div>
 
 <script>
-  // Configuración del año 2026
-  const inicioAno = new Date('2026-01-01T00:00:00').getTime();
-  const finAno    = new Date('2027-01-01T00:00:00').getTime();
-  const totalSegundosAno = (finAno - inicioAno) / 1000; // 31.536.000 segundos
+  // Detecta automáticamente el año actual
+  const anoActual = new Date().getFullYear();
+  const inicioAno = new Date(`${anoActual}-01-01T00:00:00`).getTime();
+  const finAno    = new Date(`${anoActual + 1}-01-01T00:00:00`).getTime();
 
-  // Altura máxima de la vela (debe coincidir con el CSS)
+  document.getElementById('anioTexto').textContent = anoActual;
+
   const alturaMaxima = window.innerWidth <= 500 ? 300 : 400;
 
   const vela = document.getElementById('vela');
@@ -277,25 +357,20 @@
   const horasEl = document.getElementById('horas');
   const minutosEl = document.getElementById('minutos');
   const segundosEl = document.getElementById('segundos');
+  const llamaContainer = document.getElementById('llamaContainer');
 
   function actualizar() {
     const ahora = new Date().getTime();
     let transcurrido = ahora - inicioAno;
     let restante = finAno - ahora;
 
-    // Si el año aún no empieza
     if (transcurrido < 0) transcurrido = 0;
-    // Si el año ya terminó
     if (restante < 0) restante = 0;
 
-    // Porcentaje consumido (0 a 1)
     const porcentajeConsumido = transcurrido / (finAno - inicioAno);
-
-    // Altura actual de la vela
     const nuevaAltura = alturaMaxima * (1 - porcentajeConsumido);
     vela.style.height = Math.max(0, nuevaAltura) + 'px';
 
-    // Calcular días, horas, minutos, segundos restantes
     const segundosTotales = Math.floor(restante / 1000);
     const d = Math.floor(segundosTotales / 86400);
     const h = Math.floor((segundosTotales % 86400) / 3600);
@@ -308,8 +383,54 @@
     segundosEl.textContent = String(s).padStart(2, '0');
   }
 
+  // Función para crear UNA chispa mágica desde la llama
+  function crearChispa() {
+    const chispa = document.createElement('div');
+    chispa.classList.add('chispa');
+
+    // Colores mágicos: verde brillante, dorado, blanco
+    const colores = ['#70ff70', '#ffd700', '#ffffff', '#90ff90'];
+    const color = colores[Math.floor(Math.random() * colores.length)];
+
+    chispa.style.background = color;
+    chispa.style.boxShadow = `0 0 8px ${color}, 0 0 15px ${color}`;
+
+    // Posición inicial: centro de la llama
+    const offsetX = (Math.random() - 0.5) * 15;
+    chispa.style.left = `calc(50% + ${offsetX}px)`;
+    chispa.style.top = '20px';
+
+    // Dirección aleatoria hacia arriba
+    const dx = (Math.random() - 0.5) * 60;
+    const dy = -(Math.random() * 80 + 60);
+    chispa.style.setProperty('--dx', `${dx}px`);
+    chispa.style.setProperty('--dy', `${dy}px`);
+
+    const duracion = Math.random() * 1 + 0.8;
+    chispa.style.animation = `chispa-subir ${duracion}s ease-out forwards`;
+
+    llamaContainer.appendChild(chispa);
+
+    // Eliminar la chispa después de la animación
+    setTimeout(() => {
+      if (chispa.parentNode) chispa.parentNode.removeChild(chispa);
+    }, duracion * 1000);
+  }
+
+  // Lanzar chispas muy esporádicamente (cada 5-12 segundos)
+  function lanzarChispaEsporadica() {
+    // 30% de probabilidad de lanzar una chispa
+    if (Math.random() < 0.3) {
+      crearChispa();
+    }
+    // Próximo intento entre 5 y 12 segundos
+    const siguiente = Math.random() * 7000 + 5000;
+    setTimeout(lanzarChispaEsporadica, siguiente);
+  }
+
   actualizar();
   setInterval(actualizar, 1000);
+  lanzarChispaEsporadica();
 </script>
 
 </body>
