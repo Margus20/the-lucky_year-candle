@@ -1,337 +1,43 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vela Consumiéndose</title>
-<link rel="icon" type="image/jpeg" href="https://margus20.github.io/vela_consumiente/1794442913870.jpg">
+<title>The Year Candle</title>
+<link rel="icon" type="image/jpeg" href="1794442913870.jpg">
+<link rel="stylesheet" href="css/style.css">
 
 <!-- Metaetiquetas para redes sociales (Open Graph) -->
-<meta property="og:title" content="Vela Consumiéndose - Año 2026">
-<meta property="og:description" content="Una vela que se consume segundo a segundo mientras avanza el año. Descubre cuánto tiempo falta para que termine el año.">
+<meta property="og:title" content="The Year Candle – Watch the year burn down">
+<meta property="og:description" content="A candle that burns down second by second as the year passes. See exactly how much time is left until the New Year.">
 <meta property="og:image" content="https://margus20.github.io/vela_consumiente/1794442913870.jpg">
 <meta property="og:url" content="https://margus20.github.io/vela_consumiente/">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="Vela Consumiéndose">
+<meta property="og:site_name" content="The Year Candle">
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Vela Consumiéndose - Año 2026">
-<meta name="twitter:description" content="Una vela que se consume segundo a segundo mientras avanza el año.">
+<meta name="twitter:title" content="The Year Candle – Watch the year burn down">
+<meta name="twitter:description" content="A candle that burns down second by second as the year passes.">
 <meta name="twitter:image" content="https://margus20.github.io/vela_consumiente/1794442913870.jpg">
-
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    background: #000000;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Georgia', serif;
-    color: #f5e6c8;
-    overflow: hidden;
-    padding: 20px;
-  }
-
-  .escena {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  /* Contenedor de la vela con la sombra fantasma */
-  .vela-wrapper {
-    position: relative;
-    width: 90px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .vela-contenedor {
-    position: relative;
-    width: 100%;
-    height: 400px; /* Altura fija del contenedor para la sombra fantasma */
-  }
-
-  /* Sombra fantasma: muestra la vela completa original */
-  .vela-fantasma {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 100%;
-    background: linear-gradient(to right,
-      rgba(30, 120, 30, 0.15) 0%,
-      rgba(50, 180, 50, 0.2) 20%,
-      rgba(70, 220, 70, 0.25) 50%,
-      rgba(50, 180, 50, 0.2) 80%,
-      rgba(30, 120, 30, 0.15) 100%);
-    border-radius: 8px 8px 4px 4px;
-    box-shadow: 0 0 30px rgba(50, 220, 50, 0.15);
-  }
-
-  /* Línea punteada que marca el tope original */
-  .vela-fantasma::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -10px;
-    right: -10px;
-    height: 2px;
-    background: repeating-linear-gradient(to right,
-      rgba(100, 255, 100, 0.4) 0px,
-      rgba(100, 255, 100, 0.4) 6px,
-      transparent 6px,
-      transparent 12px);
-  }
-
-  /* Vela real (la que se consume) */
-  .vela {
-    position: absolute;
-    bottom: 0; /* Anclada a la base, por lo que se encoge hacia arriba */
-    left: 0;
-    right: 0;
-    height: 400px;
-    background: linear-gradient(to right,
-      #0a4a0a 0%,
-      #1a8a1a 20%,
-      #2ecc2e 50%,
-      #1a8a1a 80%,
-      #0a4a0a 100%);
-    border-radius: 8px 8px 4px 4px;
-    box-shadow:
-      inset -8px 0 15px rgba(0,0,0,0.4),
-      inset 8px 0 15px rgba(255,255,255,0.15),
-      0 0 25px rgba(46, 204, 46, 0.4);
-    transition: height 1s linear;
-    /* Sin overflow: hidden para que la llama no se corte */
-  }
-
-  /* Parte superior de la vela (cera derretida) */
-  .vela::before {
-    content: '';
-    position: absolute;
-    top: -4px;
-    left: 0;
-    right: 0;
-    height: 10px;
-    background: radial-gradient(ellipse at center, #50ff50 0%, #2ecc2e 50%, #1a8a1a 100%);
-    border-radius: 50%;
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
-    z-index: 2;
-  }
-
-  /* MECHA (ahora dentro de la vela para que baje con ella) */
-  .mecha {
-    position: absolute;
-    top: -14px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 3px;
-    height: 16px;
-    background: linear-gradient(to top, #1a0a00, #000);
-    border-radius: 2px;
-    z-index: 3;
-  }
-
-  /* LLAMA (ahora dentro de la vela para que baje con ella) */
-  .llama-container {
-    position: absolute;
-    top: -94px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 40px;
-    height: 80px;
-    z-index: 4;
-  }
-
-  .llama {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 28px;
-    height: 65px;
-    background: radial-gradient(ellipse at 50% 90%, #e0ffe0 0%, #50ff50 25%, #20cc20 55%, #0a8a0a 85%, transparent 100%);
-    border-radius: 50% 50% 35% 35% / 70% 70% 30% 30%;
-    animation: parpadeo 0.15s infinite alternate, bamboleo 2s infinite ease-in-out;
-    transform-origin: 50% 100%;
-    filter: blur(0.5px);
-    box-shadow: 0 0 25px #30ff30, 0 0 50px #20cc20, 0 0 80px rgba(32, 204, 32, 0.5);
-  }
-
-  .llama::before {
-    content: '';
-    position: absolute;
-    bottom: 5px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 10px;
-    height: 30px;
-    background: radial-gradient(ellipse at 50% 80%, #ffffff 0%, #d0ffd0 40%, #50ff50 80%, transparent 100%);
-    border-radius: 50% 50% 35% 35% / 70% 70% 30% 30%;
-    animation: parpadeo-interno 0.2s infinite alternate;
-  }
-
-  @keyframes parpadeo {
-    0%   { transform: translateX(-50%) scale(1, 1); opacity: 0.95; }
-    100% { transform: translateX(-50%) scale(1.05, 0.95); opacity: 1; }
-  }
-
-  @keyframes parpadeo-interno {
-    0%   { transform: translateX(-50%) scale(1, 1); }
-    100% { transform: translateX(-50%) scale(0.9, 1.1); }
-  }
-
-  @keyframes bamboleo {
-    0%, 100% { transform: translateX(-50%) rotate(-2deg); }
-    50%      { transform: translateX(-50%) rotate(2deg); }
-  }
-
-  /* Gotas de cera en los laterales */
-  .gota {
-    position: absolute;
-    top: -2px;
-    background: linear-gradient(to bottom, #50ff50 0%, #2ecc2e 60%, #1a8a1a 100%);
-    border-radius: 50% 50% 45% 45% / 30% 30% 70% 70%;
-    box-shadow: inset -2px 0 3px rgba(0,0,0,0.3), 0 2px 3px rgba(0,0,0,0.4);
-    animation: gotear 4s infinite ease-in;
-    z-index: 1;
-  }
-
-  .gota-1 { left: 8px; width: 14px; height: 30px; animation-delay: 0s; }
-  .gota-2 { right: 12px; width: 11px; height: 45px; animation-delay: 1.5s; }
-  .gota-3 { left: 25px; width: 9px; height: 22px; animation-delay: 2.8s; }
-  .gota-4 { right: 30px; width: 12px; height: 35px; animation-delay: 0.7s; }
-
-  @keyframes gotear {
-    0%   { transform: translateY(0) scaleY(1); opacity: 1; }
-    70%  { transform: translateY(60px) scaleY(1.2); opacity: 1; }
-    100% { transform: translateY(120px) scaleY(0.8); opacity: 0.7; }
-  }
-
-  /* Candelabro dorado */
-  .base {
-    width: 130px;
-    height: 22px;
-    background: linear-gradient(to bottom, #d4a843 0%, #b8862d 30%, #8b6914 70%, #6b4f10 100%);
-    border-radius: 50%;
-    margin-top: -4px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.7), inset 0 2px 4px rgba(255,220,100,0.3);
-    position: relative;
-    z-index: 5;
-  }
-
-  .base::before {
-    content: '';
-    position: absolute;
-    top: -8px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 12px;
-    background: linear-gradient(to bottom, #e8c060, #b8862d);
-    border-radius: 50%;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.5);
-  }
-
-  /* Texto año */
-  .anio {
-    margin-top: 30px;
-    font-size: 2.5rem;
-    font-weight: bold;
-    letter-spacing: 8px;
-    color: #ffd88a;
-    text-shadow:
-      0 0 10px #ff9a2a,
-      0 0 20px #ff6a00,
-      0 0 30px rgba(255, 120, 0, 0.6);
-    animation: brillo-texto 3s infinite alternate;
-  }
-
-  @keyframes brillo-texto {
-    0%   { text-shadow: 0 0 10px #ff9a2a, 0 0 20px #ff6a00; }
-    100% { text-shadow: 0 0 15px #ffbb4a, 0 0 30px #ff8a1f, 0 0 45px rgba(255, 120, 0, 0.7); }
-  }
-
-  /* Contador */
-  .contador {
-    margin-top: 25px;
-    text-align: center;
-    font-size: 1.1rem;
-    color: #e8d4a8;
-    line-height: 1.8;
-    letter-spacing: 1px;
-  }
-
-  .contador .numero {
-    display: inline-block;
-    font-weight: bold;
-    color: #ffd88a;
-    min-width: 30px;
-    text-align: center;
-    font-family: 'Courier New', monospace;
-  }
-
-  .contador .etiqueta {
-    font-size: 0.75rem;
-    color: #a89070;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    display: block;
-    margin-top: -5px;
-  }
-
-  .contador-grupo {
-    display: inline-block;
-    margin: 0 10px;
-    vertical-align: top;
-  }
-
-  /* Chispas mágicas */
-  .chispa {
-    position: absolute;
-    width: 3px;
-    height: 3px;
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 10;
-  }
-
-  @keyframes chispa-subir {
-    0% {
-      transform: translate(0, 0) scale(1);
-      opacity: 1;
-    }
-    100% {
-      transform: translate(var(--dx), var(--dy)) scale(0);
-      opacity: 0;
-    }
-  }
-
-  @media (max-width: 500px) {
-    .vela-contenedor { height: 300px; }
-    .vela { height: 300px; }
-    .vela-wrapper { width: 70px; }
-    .base { width: 100px; }
-    .anio { font-size: 1.8rem; }
-    .contador { font-size: 0.95rem; }
-  }
-</style>
 </head>
 <body>
+
+<canvas id="fuegosCanvas"></canvas>
+<div id="yearReveal"></div>
+
+<a href="https://ko-fi.com/mar_gus" target="_blank" class="donate-btn">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+  </svg>
+  Donate
+</a>
 
 <div class="escena">
   <div class="vela-wrapper">
     <div class="vela-contenedor">
       <div class="vela-fantasma"></div>
       <div class="vela" id="vela">
-        <!-- La mecha y la llama ahora están DENTRO de la vela -->
         <div class="mecha"></div>
         <div class="llama-container" id="llamaContainer">
           <div class="llama"></div>
@@ -350,108 +56,24 @@
   <div class="contador" id="contador">
     <div class="contador-grupo">
       <span class="numero" id="dias">00</span>
-      <span class="etiqueta">Días</span>
+      <span class="etiqueta">Days</span>
     </div>
     <div class="contador-grupo">
       <span class="numero" id="horas">00</span>
-      <span class="etiqueta">Horas</span>
+      <span class="etiqueta">Hours</span>
     </div>
     <div class="contador-grupo">
       <span class="numero" id="minutos">00</span>
-      <span class="etiqueta">Minutos</span>
+      <span class="etiqueta">Minutes</span>
     </div>
     <div class="contador-grupo">
       <span class="numero" id="segundos">00</span>
-      <span class="etiqueta">Segundos</span>
+      <span class="etiqueta">Seconds</span>
     </div>
   </div>
 </div>
 
-<script>
-  // Detecta automáticamente el año actual
-  const anoActual = new Date().getFullYear();
-  const inicioAno = new Date(`${anoActual}-01-01T00:00:00`).getTime();
-  const finAno    = new Date(`${anoActual + 1}-01-01T00:00:00`).getTime();
-
-  document.getElementById('anioTexto').textContent = anoActual;
-
-  const alturaMaxima = window.innerWidth <= 500 ? 300 : 400;
-
-  const vela = document.getElementById('vela');
-  const diasEl = document.getElementById('dias');
-  const horasEl = document.getElementById('horas');
-  const minutosEl = document.getElementById('minutos');
-  const segundosEl = document.getElementById('segundos');
-  const llamaContainer = document.getElementById('llamaContainer');
-
-  function actualizar() {
-    const ahora = new Date().getTime();
-    let transcurrido = ahora - inicioAno;
-    let restante = finAno - ahora;
-
-    if (transcurrido < 0) transcurrido = 0;
-    if (restante < 0) restante = 0;
-
-    const porcentajeConsumido = transcurrido / (finAno - inicioAno);
-    const nuevaAltura = alturaMaxima * (1 - porcentajeConsumido);
-    vela.style.height = Math.max(0, nuevaAltura) + 'px';
-
-    const segundosTotales = Math.floor(restante / 1000);
-    const d = Math.floor(segundosTotales / 86400);
-    const h = Math.floor((segundosTotales % 86400) / 3600);
-    const m = Math.floor((segundosTotales % 3600) / 60);
-    const s = segundosTotales % 60;
-
-    diasEl.textContent    = String(d).padStart(2, '0');
-    horasEl.textContent   = String(h).padStart(2, '0');
-    minutosEl.textContent = String(m).padStart(2, '0');
-    segundosEl.textContent = String(s).padStart(2, '0');
-  }
-
-  // Función para crear UNA chispa mágica desde la llama
-  function crearChispa() {
-    const chispa = document.createElement('div');
-    chispa.classList.add('chispa');
-
-    const colores = ['#70ff70', '#ffd700', '#ffffff', '#90ff90'];
-    const color = colores[Math.floor(Math.random() * colores.length)];
-
-    chispa.style.background = color;
-    chispa.style.boxShadow = `0 0 8px ${color}, 0 0 15px ${color}`;
-
-    // Posición ajustada al centro de la llama dentro de su contenedor
-    const offsetX = (Math.random() - 0.5) * 15;
-    chispa.style.left = `calc(50% + ${offsetX}px)`;
-    chispa.style.top = '55px';
-
-    const dx = (Math.random() - 0.5) * 60;
-    const dy = -(Math.random() * 80 + 60);
-    chispa.style.setProperty('--dx', `${dx}px`);
-    chispa.style.setProperty('--dy', `${dy}px`);
-
-    const duracion = Math.random() * 1 + 0.8;
-    chispa.style.animation = `chispa-subir ${duracion}s ease-out forwards`;
-
-    llamaContainer.appendChild(chispa);
-
-    setTimeout(() => {
-      if (chispa.parentNode) chispa.parentNode.removeChild(chispa);
-    }, duracion * 1000);
-  }
-
-  // Lanzar chispas muy esporádicamente (cada 5-12 segundos)
-  function lanzarChispaEsporadica() {
-    if (Math.random() < 0.3) {
-      crearChispa();
-    }
-    const siguiente = Math.random() * 7000 + 5000;
-    setTimeout(lanzarChispaEsporadica, siguiente);
-  }
-
-  actualizar();
-  setInterval(actualizar, 1000);
-  lanzarChispaEsporadica();
-</script>
+<script src="js/script.js"></script>
 
 </body>
 </html>
