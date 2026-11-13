@@ -2,11 +2,13 @@
 
 /* CAMBIA A true PARA VER LOS FUEGOS ARTIFICIALES AHORA MISMO Y PROBAR.
    Cuando termines de probar, devuélvelo a false. */
-const DEBUG_CELERAR = false;
+const DEBUG_CELERAR = true; // <-- CAMBIO 1: Activado para la prueba
 
 /* El año se recalcula cada segundo, NO una sola vez. Así la página
    cambia de año sola, sin recargar, cuando el visitante cruza la medianoche. */
-let anoActual = new Date().getFullYear();
+// CAMBIO 2: Forzamos el año base a 2025 para que al cargar la página 
+// detecte el cambio a 2026 y dispare TODA la celebración de inmediato.
+let anoActual = 2025; 
 let inicioAno = new Date(`${anoActual}-01-01T00:00:00`).getTime();
 let finAno    = new Date(`${anoActual + 1}-01-01T00:00:00`).getTime();
 
