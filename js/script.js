@@ -1,11 +1,7 @@
 /* ===== LÓGICA DE LA VELA CONSUMIÉNDOSE ===== */
 
-/* CAMBIA A true PARA VER LOS FUEGOS ARTIFICIALES AHORA MISMO Y PROBAR.
-   Cuando termines de probar, devuélvelo a false. */
 const DEBUG_CELERAR = false;
 
-/* El año se recalcula cada segundo, NO una sola vez. Así la página
-   cambia de año sola, sin recargar, cuando el visitante cruza la medianoche. */
 let anoActual = new Date().getFullYear();
 let inicioAno = new Date(`${anoActual}-01-01T00:00:00`).getTime();
 let finAno    = new Date(`${anoActual + 1}-01-01T00:00:00`).getTime();
@@ -23,18 +19,16 @@ const llamaContainer = document.getElementById('llamaContainer');
 const anioTexto = document.getElementById('anioTexto');
 const yearReveal = document.getElementById('yearReveal');
 
-/* ----- Actualización por segundo: vela + contador + detección de año nuevo ----- */
 function actualizar() {
   const ahora = new Date().getTime();
 
-  /* Detectar cruce de medianoche: si el año cambió, reiniciar todo solo */
   const nuevoAnio = new Date().getFullYear();
   if (nuevoAnio !== anoActual) {
     anoActual = nuevoAnio;
     inicioAno = new Date(`${anoActual}-01-01T00:00:00`).getTime();
     finAno    = new Date(`${anoActual + 1}-01-01T00:00:00`).getTime();
-    anioTexto.textContent = anoActual;   /* el número de abajo ya se actualiza */
-    dispararCelebracion(anoActual);      /* reveal grande arriba + ráfaga de fuegos */
+    anioTexto.textContent = anoActual;
+    dispararCelebracion(anoActual);
   }
 
   let transcurrido = ahora - inicioAno;
@@ -42,12 +36,10 @@ function actualizar() {
   if (transcurrido < 0) transcurrido = 0;
   if (restante < 0) restante = 0;
 
-  /* Cálculo matemático: qué fracción del año ya pasó = cuánto se consumió */
   const porcentajeConsumido = transcurrido / (finAno - inicioAno);
   const nuevaAltura = alturaMaxima * (1 - porcentajeConsumido);
   vela.style.height = Math.max(0, nuevaAltura) + 'px';
 
-  /* Contador de tiempo restante */
   const segundosTotales = Math.floor(restante / 1000);
   const d = Math.floor(segundosTotales / 86400);
   const h = Math.floor((segundosTotales % 86400) / 3600);
@@ -60,7 +52,6 @@ function actualizar() {
   segundosEl.textContent = String(s).padStart(2, '0');
 }
 
-/* ----- Chispa mágica esporádica desde la llama ----- */
 function crearChispa() {
   const chispa = document.createElement('div');
   chispa.classList.add('chispa');
@@ -87,7 +78,6 @@ function lanzarChispaEsporadica() {
   setTimeout(lanzarChispaEsporadica, siguiente);
 }
 
-/* ----- Sistema de fuegos artificiales sobre un canvas ----- */
 const canvas = document.getElementById('fuegosCanvas');
 const ctx = canvas.getContext('2d');
 let particulas = [];
@@ -128,7 +118,7 @@ function animarFuegos() {
     const p = particulas[i];
     p.x += p.vx;
     p.y += p.vy;
-    p.vy += 0.05; /* gravedad: las chispas caen como en un fuego real */
+    p.vy += 0.05;
     p.vx *= 0.98;
     p.vida -= 0.012;
     if (p.vida <= 0) { particulas.splice(i, 1); continue; }
@@ -143,7 +133,6 @@ function animarFuegos() {
 }
 animarFuegos();
 
-/* ----- Ventana de celebración: últimos 10s del 31 dic + primer minuto del 1 ene ----- */
 function enVentanaCelebracion() {
   if (DEBUG_CELERAR) return true;
   const now = new Date();
@@ -178,11 +167,10 @@ function cicloFuegos() {
 }
 cicloFuegos();
 
-/* ----- Reveal del año nuevo (grande arriba, luego baja) + ráfaga inicial ----- */
 function dispararCelebracion(anio) {
   yearReveal.textContent = anio;
   yearReveal.classList.remove('show');
-  void yearReveal.offsetWidth; /* reinicia la animación para poder volver a dispararla */
+  void yearReveal.offsetWidth;
   yearReveal.classList.add('show');
   for (let i = 0; i < 5; i++) {
     setTimeout(() => {
@@ -191,7 +179,53 @@ function dispararCelebracion(anio) {
   }
 }
 
-/* ----- Arranque ----- */
+/* ===== LÓGICA DEL PANEL DE DONACIÓN Y MODAL DE BINANCE ===== */
+const donateBtn = document.getElementById('donateBtn');
+const donatePanel = document.getElementById('donatePanel');
+const kofiBtn = document.getElementById('kofiBtn');
+const binanceBtn = document.getElementById('binanceBtn');
+const qrModal = document.getElementById('qrModal');
+const qrClose = document.getElementById('qrClose');
+
+const KOFI_URL = 'https://ko-fi.com/mar_gus';
+
+// Abrir/cerrar el panel de opciones al tocar el botón Donate
+donateBtn.addEventListener('click', () => {
+  donatePanel.classList.toggle('open');
+});
+
+// Cerrar el panel si se toca fuera de él
+document.addEventListener('click', (e) => {
+  if (!donatePanel.contains(e.target) && !donateBtn.contains(e.target)) {
+    donatePanel.classList.remove('open');
+  }
+});
+
+// Abrir Ko-fi en nueva pestaña
+kofiBtn.addEventListener('click', () => {
+  window.open(KOFI_URL, '_blank');
+  donatePanel.classList.remove('open');
+});
+
+// Abrir el modal del QR de Binance
+binanceBtn.addEventListener('click', () => {
+  qrModal.classList.add('open');
+  donatePanel.classList.remove('open');
+});
+
+// Cerrar el modal del QR
+qrClose.addEventListener('click', () => {
+  qrModal.classList.remove('open');
+});
+
+// Cerrar el modal al tocar fuera del contenido
+qrModal.addEventListener('click', (e) => {
+  if (e.target === qrModal) {
+    qrModal.classList.remove('open');
+  }
+});
+
+/* ===== ARRANQUE ===== */
 actualizar();
 setInterval(actualizar, 1000);
 lanzarChispaEsporadica();
