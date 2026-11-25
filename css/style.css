@@ -15,7 +15,7 @@ body {
   padding: 20px;
 }
 
-/* CANVAS DE FUEGOS ARTIFICIALES (capa transparente a pantalla completa) */
+/* CANVAS DE FUEGOS ARTIFICIALES */
 #fuegosCanvas {
   position: fixed;
   top: 0;
@@ -23,10 +23,10 @@ body {
   width: 100%;
   height: 100%;
   z-index: 1;
-  pointer-events: none; /* no bloquea clics, solo se ve */
+  pointer-events: none;
 }
 
-/* REVEAL DEL AÑO NUEVO (aparece grande arriba y luego se desliza) */
+/* REVEAL DEL AÑO NUEVO */
 #yearReveal {
   position: fixed;
   top: 12%;
@@ -59,7 +59,7 @@ body {
   100% { opacity: 0; transform: scale(0.8) translateY(40px); }
 }
 
-/* BOTÓN DE DONACIÓN (esquina superior derecha, rojo con pulso) */
+/* ===== BOTÓN DE DONAR (ahora es un botón, no un enlace) ===== */
 .donate-btn {
   position: fixed;
   top: 18px;
@@ -70,7 +70,8 @@ body {
   gap: 8px;
   background: linear-gradient(135deg, #ff4d4d 0%, #d92b2b 100%);
   color: #ffffff;
-  text-decoration: none;
+  border: none;
+  cursor: pointer;
   font-family: 'Arial', sans-serif;
   font-weight: bold;
   font-size: 0.95rem;
@@ -93,7 +94,154 @@ body {
   50%      { box-shadow: 0 0 22px rgba(255, 77, 77, 0.7), 0 4px 10px rgba(0,0,0,0.4); }
 }
 
-/* ESCENA PRINCIPAL */
+/* ===== PANEL DE OPCIONES DE DONACIÓN ===== */
+.donate-panel {
+  position: fixed;
+  top: 75px;
+  right: 18px;
+  z-index: 101;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: rgba(20, 20, 20, 0.95);
+  padding: 14px;
+  border-radius: 14px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+  opacity: 0;
+  transform: translateY(-10px) scale(0.95);
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.donate-panel.open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.donate-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: 'Arial', sans-serif;
+  font-weight: bold;
+  font-size: 0.9rem;
+  color: #ffffff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  min-width: 160px;
+}
+
+.donate-option:hover {
+  transform: scale(1.04);
+}
+
+.kofi-option {
+  background: linear-gradient(135deg, #ff5e5b 0%, #ff8a5b 100%);
+  box-shadow: 0 4px 10px rgba(255, 94, 91, 0.4);
+}
+
+.binance-option {
+  background: linear-gradient(135deg, #f0b90b 0%, #d4a00a 100%);
+  box-shadow: 0 4px 10px rgba(240, 185, 11, 0.4);
+  color: #1e2329;
+}
+
+.option-icon { font-size: 1.2rem; }
+.option-text { letter-spacing: 0.5px; }
+
+/* ===== MODAL DEL CÓDIGO QR DE BINANCE ===== */
+.qr-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 200;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  padding: 20px;
+}
+
+.qr-modal.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.qr-modal-content {
+  position: relative;
+  background: #1a1a1a;
+  border-radius: 20px;
+  padding: 30px 25px 25px;
+  text-align: center;
+  max-width: 340px;
+  width: 100%;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+  border: 1px solid rgba(240, 185, 11, 0.3);
+  transform: scale(0.9);
+  transition: transform 0.3s ease;
+}
+
+.qr-modal.open .qr-modal-content {
+  transform: scale(1);
+}
+
+.qr-close {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  transition: background 0.2s ease;
+}
+
+.qr-close:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+.qr-title {
+  color: #f0b90b;
+  font-family: 'Arial', sans-serif;
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 18px;
+  letter-spacing: 0.5px;
+}
+
+.qr-image {
+  width: 100%;
+  max-width: 260px;
+  height: auto;
+  border-radius: 12px;
+  background: #ffffff;
+  padding: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+.qr-note {
+  color: #a89070;
+  font-family: 'Arial', sans-serif;
+  font-size: 0.8rem;
+  margin-top: 15px;
+  line-height: 1.4;
+}
+
+/* ===== ESCENA DE LA VELA ===== */
 .escena {
   position: relative;
   z-index: 2;
@@ -102,7 +250,6 @@ body {
   align-items: center;
 }
 
-/* Contenedor de la vela con la sombra fantasma */
 .vela-wrapper {
   position: relative;
   width: 90px;
@@ -114,10 +261,9 @@ body {
 .vela-contenedor {
   position: relative;
   width: 100%;
-  height: 400px; /* Altura fija: la vela real se encoge dentro de ella */
+  height: 400px;
 }
 
-/* Sombra fantasma: muestra la vela completa original (el "hueco" consumido) */
 .vela-fantasma {
   position: absolute;
   top: 0;
@@ -134,7 +280,6 @@ body {
   box-shadow: 0 0 30px rgba(50, 220, 50, 0.15);
 }
 
-/* Línea punteada que marca el tope original de la vela */
 .vela-fantasma::after {
   content: '';
   position: absolute;
@@ -149,7 +294,6 @@ body {
     transparent 12px);
 }
 
-/* Vela real (la que se consume). Anclada abajo, se encoge hacia arriba */
 .vela {
   position: absolute;
   bottom: 0;
@@ -170,7 +314,6 @@ body {
   transition: height 1s linear;
 }
 
-/* Parte superior de la vela (cera derretida) */
 .vela::before {
   content: '';
   position: absolute;
@@ -184,7 +327,6 @@ body {
   z-index: 2;
 }
 
-/* MECHA (dentro de la vela para que baje con ella) */
 .mecha {
   position: absolute;
   top: -14px;
@@ -197,7 +339,6 @@ body {
   z-index: 3;
 }
 
-/* LLAMA (dentro de la vela para que baje con ella) */
 .llama-container {
   position: absolute;
   top: -94px;
@@ -251,7 +392,6 @@ body {
   50%      { transform: translateX(-50%) rotate(2deg); }
 }
 
-/* Gotas de cera en los laterales */
 .gota {
   position: absolute;
   top: -2px;
@@ -273,7 +413,6 @@ body {
   100% { transform: translateY(120px) scaleY(0.8); opacity: 0.7; }
 }
 
-/* Candelabro dorado */
 .base {
   width: 130px;
   height: 22px;
@@ -298,7 +437,6 @@ body {
   box-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
 
-/* Texto del año */
 .anio {
   margin-top: 30px;
   font-size: 2.5rem;
@@ -317,7 +455,6 @@ body {
   100% { text-shadow: 0 0 15px #ffbb4a, 0 0 30px #ff8a1f, 0 0 45px rgba(255, 120, 0, 0.7); }
 }
 
-/* Contador */
 .contador {
   margin-top: 25px;
   text-align: center;
@@ -351,7 +488,6 @@ body {
   vertical-align: top;
 }
 
-/* Chispas mágicas de la llama */
 .chispa {
   position: absolute;
   width: 3px;
@@ -366,7 +502,7 @@ body {
   100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
 }
 
-/* Ajustes para pantallas pequeñas (tableta / celular) */
+/* Ajustes para pantallas pequeñas */
 @media (max-width: 500px) {
   .vela-contenedor { height: 300px; }
   .vela { height: 300px; }
@@ -377,4 +513,8 @@ body {
   .donate-btn { top: 12px; right: 12px; font-size: 0.8rem; padding: 8px 14px; }
   .donate-btn svg { width: 16px; height: 16px; }
   #yearReveal { font-size: 4rem; }
-  }
+  .donate-panel { top: 65px; right: 12px; padding: 10px; }
+  .donate-option { min-width: 140px; padding: 8px 12px; font-size: 0.85rem; }
+  .qr-modal-content { padding: 25px 20px 20px; }
+  .qr-title { font-size: 1rem; }
+}
